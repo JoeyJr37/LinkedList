@@ -8,24 +8,29 @@ class LinkedList
     class Node
         def initialize(value)
             @value = value
-            @next_node = null
-            @list_size += 1
-        end
-
-        def value
-        end
-
-        def next_node_link
+            @next_node = nil
         end
     end
 
+    def print_list
+        puts 
+    end
+    #code to add node to the end of the list
     def append(value)
         new_node = Node.new(value)
-        #code to add node to the end of the list
+        if @head == null
+            @head = new_node
+            @tail = new_node.next_node
+        else
+            @tail = new_node
+            new_node.next_node = nil
+        end
     end
 
     def prepend(value)
         new_node = Node.new(value)
+        @head = new_node
+        new_node.next_node = 
         #code to add node to beginning of the list
     end
 
@@ -43,4 +48,5 @@ class LinkedList
 end
 
 list = LinkedList.new
-list
+list.Node.new(3)
+list.append(4)
