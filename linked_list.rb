@@ -5,38 +5,45 @@ class LinkedList
     def initialize
         @head = nil
         @node_counter = 0
-        @tail = nil
     end
 
+    
     def get_value(node)
         if node.next_node != nil
-            p node.value
+            puts node.value
             get_value(node.next_node)
         else
             node.value
         end
     end
 
-    def print_list
-        if @head == nil
-            p "List is empty"
+    def traverse_nodes(node)
+        if node.next_node != nil
+            traverse_nodes(node.next_node)
         else
-            # print all the Nodes created starting with the head and ending with the tail
-            p self.get_value(@head)
+            node
         end
     end
+
+    # def print_list
+    #     if @head == nil
+    #         puts "List is empty"
+    #     else
+    #         # print all the Nodes created starting with the head and ending with the tail
+    #         puts self.get_value(@head)
+    #     end
+    # end
+
     #code to add node to the end of the list
     def append(value)
         new_node = Node.new(value)
         @node_counter += 1
         if @head == nil
             @head = new_node
-        elsif @tail == nil 
-            @tail = new_node
-            @head.next_node = @tail
         else
-            @tail.next_node = new_node
-            @tail = new_node
+            last_node = traverse_nodes(@head)
+            # require 'pry'; binding.pry
+            last_node.next_node = new_node
         end
     end
 
@@ -47,7 +54,6 @@ class LinkedList
         if @head == nil
             @head = new_node
         else
-            temp_node = @head
             new_node.next_node = @head
             @head = new_node
         end
@@ -62,7 +68,16 @@ class LinkedList
     end
 
     def tail
-        @tail.value
+        last_node = traverse_nodes(@head)
+        last_node.value
+    end
+
+    def find_node_at(node, index)
+        if index == 1
+            node
+        else  
+            find_node_at(node.next_node, index - 1)
+        end
     end
 
     def at(index)
@@ -70,37 +85,73 @@ class LinkedList
             @head = @head.next_node
             @node_counter -= 1
         elsif index == node_counter
-            @tail = nil
-            @node_counter -= 1
+            self.pop
         else            
-            #delete that node from the list
-            #connect the node in front of it to the node after it
-            # def get_value(node)
-            #     if node.next_node != nil
-            #         p node.value
-            #         get_value(node.next_node)
-            #     else
-            #         node.value
-            #     end
-            # end
+            node_to_delete = find_node_at(@head, index)
+            parent_node = find_node_at(@head, index - 1)
+            puts "Removed #{node_to_delete.value}"
+            parent_node.next_node = node_to_delete.next_node
+            @node_counter -= 1
+        end
+    end
+
+    def remove_nil_node(node)
+        if node.next_node.value == nil
+            node.next_node = nil
+            @node_counter -= 1
+        else
+            remove_nil_node(node.next_node)
         end
     end
 
     def pop
-        #removes the last node from the list
+        last_node = traverse_nodes(@head)
+        last_node.value = nil
+        remove_nil_node(@head)
+    end
+
+    def find_node_with_value(node, value)
+        if node.value == value
+            true
+        elsif node.next_node == nil
+            false
+        else
+            find_node_with_value(node.next_node, value)
+        end
     end
 
     def contains?(value)
-        #returns true if the passed in value is in the list. Otherwise returns false
+        find_node_with_value(@head, value)
+    end
+
+    def find_node_with_index(node, value, counter)
+        if node.value == value
+            counter
+        elsif node.next_node == nil
+            nil
+        else
+            find_node_with_index(node.next_node, value, counter + 1)
+        end
     end
 
     def find(value)
-        #returns the index of the node containing value, or nil if not found
+        counter = 1
+        puts "#{value} is at index: #{find_node_with_index(@head,value, counter)}"
     end
 
-    def to_s
-        #represent your LinkedList objects as strings, so you can print them out and preview them in the console. 
-        # The format should be: ( value ) -> ( value ) -> ( value ) -> nil
+    def print_list(node)
+        while node != nil
+            if node.next_node == nil
+                print "( #{node.value} ) -> nil"
+            else
+                print "( #{node.value} ) -> "
+            end
+            node = node.next_node
+        end
+    end
+
+    def to_s 
+        print_list(@head)
     end
 end
 
@@ -109,7 +160,6 @@ list = LinkedList.new
 # list.print_list
 # puts "Let's use 'prepend' to add '5' to the beginning of the list: "
  list.prepend(5)
-# list.print_list
 # puts "Then we'll use 'append' to add '9' to the end of the list: "
  list.append(9)
 # list.print_list
@@ -123,12 +173,9 @@ list = LinkedList.new
 # list.size
 
 # p list
-list.print_list
-list.size
-p list
-p list.tail
-list.at(5)
-list.print_list
-list.size
-p list
-p list.tail
+# list.print_list
+# list.size
+# p list
+list.to_s
+
+
