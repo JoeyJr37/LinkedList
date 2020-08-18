@@ -25,15 +25,6 @@ class LinkedList
         end
     end
 
-    # def print_list
-    #     if @head == nil
-    #         puts "List is empty"
-    #     else
-    #         # print all the Nodes created starting with the head and ending with the tail
-    #         puts self.get_value(@head)
-    #     end
-    # end
-
     #code to add node to the end of the list
     def append(value)
         new_node = Node.new(value)
@@ -156,26 +147,21 @@ class LinkedList
 end
 
 list = LinkedList.new
-# puts "The List starts off empty: "
-# list.print_list
-# puts "Let's use 'prepend' to add '5' to the beginning of the list: "
- list.prepend(5)
-# puts "Then we'll use 'append' to add '9' to the end of the list: "
- list.append(9)
-# list.print_list
-# puts "Let's use 'prepend' again to add '3' to the beginning of the list"
- list.prepend(3)
-# list.print_list
-# puts "What happens if we use 'prepend' again to add '1' to the beginning of the list?"
- list.prepend(1)
- list.append(10)
-# list.print_list
-# list.size
-
-# p list
-# list.print_list
-# list.size
-# p list
+puts "The List starts off empty: "
 list.to_s
+puts "Let's use 'prepend' to add '4' to the beginning of the list: "
+ list.prepend(4)
+puts "Then we'll use 'append' to add '11' to the end of the list: "
+ list.append(11)
+list.to_s
+puts "Let's use 'prepend' again to add '3' to the beginning of the list"
+list.prepend(3)
+list.to_s
+puts "What happens if we use 'prepend' again to add '1' to the beginning of the list?"
+ list.prepend(1)
+ puts "What happens if we use 'append' to add '10' to the end of the list?"
+ list.append(10)
+list.to_s
+list.size
 
 
